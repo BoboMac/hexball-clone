@@ -1,3 +1,5 @@
+// random nonsense
+
 #include "game.hpp"
 
 int main() {
