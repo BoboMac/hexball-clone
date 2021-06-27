@@ -1,4 +1,3 @@
-// random nonsense
 
 #include "game.hpp"
 
