@@ -17,6 +17,6 @@ namespace Physics {
 	};
 
 	struct Entity {
-
+		
 	};
 }
