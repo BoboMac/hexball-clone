@@ -14,7 +14,7 @@ struct Networking_PlayerData {
 };
 
 struct Networking {
-	// Will take an IP and PORT
+	// Will take some sort of an IP and PORT
 	void ConnectToServer() {
 
 	}
