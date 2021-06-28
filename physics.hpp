@@ -1,3 +1,5 @@
+#include <vector>
+
 /*
 Only spheres will be used, so collision will be fairly
 trivial. We can either use a system of 2D vectors and
@@ -11,12 +13,36 @@ though this approach is easily hackable, who gives a shit.
 bivol vezi ce drq faci
 */
 
+
 namespace Physics {
+
+	struct position{
+		float x;
+		float y;
+	};
+
+	struct Player{
+		float radius;
+		position point;
+		int getx(position circle){
+			return circle.x;
+		}
+		int gety(position circle){
+			return circle.y;
+		}
+		bool isColiding(Player a,Player b){
+			float r = a.radius + b.radius;
+  			r *= r;
+  			if(r < (a.point.x + b.point.x)*(a.point.x + b.point.x) + (a.point.y + b.point.y)^2)
+				return false;
+		}
+	};
+
 	struct World {
 
 	};
 
 	struct Entity {
-		
+		 		
 	};
 }
