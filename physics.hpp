@@ -20,36 +20,21 @@ namespace Physics {
 		float x;
 		float y;
 	};
+	struct World {
 
-	struct Player {
+	};
+	struct Entity {
 		float mass;
 		float velocity;
 		float speed;
 		float radius;
 		Position position;
-		
-		float GetX() {
-			return position.x;
-		}
-		int GetY() {
-			return position.y;
-		}
 	};
-
-	bool IsColiding(Player a, Player b){
-			float r = a.radius + b.radius;
-  			r *= r;
-  			if(r < (a.position.x + b.position.x)*(a.position.x + b.position.x) + (a.position.y + b.position.y)^2)
-				return false;
-			else
-				return true;
+	bool IsColliding(Entity a, Entity b){
+		float r = a.radius + b.radius;
+		if(r*r < (a.position.x - b.position.x)*(a.position.x - b.position.x) + (a.position.y - b.position.y) * (a.position.y - b.position.y))
+			return false;
+		else
+			return true;
 	}
-
-	struct World {
-
-	};
-
-	struct Entity {
-		 		
-	};
 }
