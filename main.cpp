@@ -1,4 +1,6 @@
 #include "game.hpp"
+#include "physics.hpp"
+#include <vector>
 
 int main() {
 	Game game;

@@ -22,7 +22,11 @@ namespace Physics {
 	};
 
 	struct Player{
+		float mass;
+		float velocity;
+		float speed;
 		float radius;
+		float x,y;
 		position point;
 		int getx(position circle){
 			return circle.x;
@@ -30,13 +34,16 @@ namespace Physics {
 		int gety(position circle){
 			return circle.y;
 		}
-		bool isColiding(Player a,Player b){
+	};
+
+	bool isColiding(Player a,Player b){
 			float r = a.radius + b.radius;
   			r *= r;
   			if(r < (a.point.x + b.point.x)*(a.point.x + b.point.x) + (a.point.y + b.point.y)^2)
 				return false;
-		}
-	};
+			else
+				return true;
+	}
 
 	struct World {
 
