@@ -16,30 +16,30 @@ bivol vezi ce drq faci
 
 namespace Physics {
 
-	struct position{
+	struct Position{
 		float x;
 		float y;
 	};
 
-	struct Player{
+	struct Player {
 		float mass;
 		float velocity;
 		float speed;
 		float radius;
-		float x,y;
-		position point;
-		int getx(){
-			return x;
+		Position position;
+		
+		float GetX() {
+			return position.x;
 		}
-		int gety(){
-			return y;
+		int GetY() {
+			return position.y;
 		}
 	};
 
-	bool isColiding(Player a,Player b){
+	bool IsColiding(Player a, Player b){
 			float r = a.radius + b.radius;
   			r *= r;
-  			if(r < (a.point.x + b.point.x)*(a.point.x + b.point.x) + (a.point.y + b.point.y)^2)
+  			if(r < (a.position.x + b.position.x)*(a.position.x + b.position.x) + (a.position.y + b.position.y)^2)
 				return false;
 			else
 				return true;
