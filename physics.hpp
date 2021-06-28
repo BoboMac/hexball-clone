@@ -28,11 +28,11 @@ namespace Physics {
 		float radius;
 		float x,y;
 		position point;
-		int getx(position circle){
-			return circle.x;
+		int getx(){
+			return x;
 		}
-		int gety(position circle){
-			return circle.y;
+		int gety(){
+			return y;
 		}
 	};
 
