@@ -36,8 +36,7 @@ int inet_pton(int af, const char *src, void *dst) {
 	return 0;
 }
 
-const char *inet_ntop(int af, const void *src, char *dst, socklen_t size)
-{
+const char *inet_ntop(int af, const void *src, char *dst, socklen_t size) {
 	struct sockaddr_storage ss;
 	unsigned long s = size;
 
@@ -59,24 +58,20 @@ const char *inet_ntop(int af, const void *src, char *dst, socklen_t size)
 	return (WSAAddressToString((struct sockaddr *)&ss, sizeof(ss), NULL, dst, &s) == 0) ? dst : NULL;
 }
 
-enum PlayerColor
-{
+enum PlayerColor {
 	PlayerColorRed,
 	PlayerColorBlue
 };
 
-struct Networking_PlayerData
-{
+struct Networking_PlayerData {
 	PlayerColor color;
 	float x, y;
 	char name[16];
 };
 
-struct Networking
-{
+struct Networking {
 	// Returns 1 on success
-	bool ConnectToServer()
-	{
+	bool ConnectToServer() {
 		// Initialize winsock
 		WSAData data;
 		if (WSAStartup(MAKEWORD(2, 2), &data) != 0)
@@ -94,25 +89,20 @@ struct Networking
 		inet_pton(AF_INET, ip_addr, &hint.sin_addr);
 
 		// Actually connet to the mfking server
-		if (connect(sock, (sockaddr *)&hint, sizeof(hint)) == SOCKET_ERROR)
-		{
+		if (connect(sock, (sockaddr *)&hint, sizeof(hint)) == SOCKET_ERROR) {
 			closesocket(sock);
 			return 0;
 		}
 		return 1;
 	}
-	void GetPlayerData(Networking_PlayerData *player_data)
-	{
+	void GetPlayerData(Networking_PlayerData *player_data) {
 	}
-	void ReadServerData()
-	{
+	void ReadServerData() {
 	}
 	// data_size in bytes btw
-	void SendPlayerData(const char *data, int data_size)
-	{
+	void SendPlayerData(const char *data, int data_size) {
 		send(sock, data, data_size + 1, 0);
 	}
-
 private:
 	const char *ip_addr = "127.0.0.1";
 	int port = 54000;
