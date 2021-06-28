@@ -15,6 +15,12 @@ Init functions (as of now).
 struct Game {
 	bool should_quit = 0;
 	void Init() {
+		// Networking testing
+		net.ConnectToServer();
+		net.SendPlayerData("Hello", 5);
+		net.ReadServerData();
+
+
 		renderer.Init();
 		renderer.CreateBrush(&brush_red, 1, 0, 0);
 		renderer.CreateBrush(&brush_blue, 0, 0, 1);
@@ -38,6 +44,8 @@ struct Game {
 		Render();
 	}
 private:
+	Networking net;
+
 	Renderer renderer;
 	RendererBrush brush_red;
 	RendererBrush brush_blue;
@@ -65,7 +73,6 @@ private:
 			player2.position.x -= player2.speed;
 		else if (GetAsyncKeyState(VK_RIGHT))
 			player2.position.x += player2.speed;
-
 	}
 	void Render() {
 		renderer.Begin();
