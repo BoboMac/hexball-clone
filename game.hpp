@@ -9,15 +9,15 @@ Init functions (as of now).
 */
 
 #include "physics.hpp"
-#include "renderer.hpp"
 #include "networking.hpp"
+#include "renderer.hpp"
 
 struct Game {
 	bool should_quit = 0;
 	void Init() {
 		// Networking testing
 		net.ConnectToServer();
-		net.SendPlayerData("Hello", 5);
+		net.SendPlayerData("xalebale", PlayerColorRed, 100, 200);
 		net.ReadServerData();
 
 

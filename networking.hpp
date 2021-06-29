@@ -9,8 +9,9 @@ TODO:
 */
 
 #include <WS2tcpip.h>
-#include <WinSock2.h>
+#include <string>
 
+// socket bs the compiler is to old to implement
 int inet_pton(int af, const char *src, void *dst) {
 	struct sockaddr_storage ss;
 	int size = sizeof(ss);
@@ -35,7 +36,6 @@ int inet_pton(int af, const char *src, void *dst) {
 	}
 	return 0;
 }
-
 const char *inet_ntop(int af, const void *src, char *dst, socklen_t size) {
 	struct sockaddr_storage ss;
 	unsigned long s = size;
@@ -99,9 +99,9 @@ struct Networking {
 	}
 	void ReadServerData() {
 	}
-	// data_size in bytes btw
-	void SendPlayerData(const char *data, int data_size) {
-		send(sock, data, data_size + 1, 0);
+	void SendPlayerData(const std::string& name, PlayerColor color, float x, float y) {
+		std::string data = name + (color == PlayerColorRed ? " red " : " blue ") + std::to_string(x) + " " + std::to_string(y);
+		send(sock, data.c_str(), data.size() + 1, 0);
 	}
 private:
 	const char *ip_addr = "127.0.0.1";
