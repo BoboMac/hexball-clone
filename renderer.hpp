@@ -37,6 +37,7 @@ private:
 	ID2D1HwndRenderTarget *m_render_target;
 	IDWriteFactory *m_dwrite_factory;
 public:
+	HWND GetWindowHandle() { return m_window; }
 	void Init() {
 		WNDCLASSA window_class = { 0 };
 		window_class.lpfnWndProc = MainWindowProc;

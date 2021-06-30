@@ -32,7 +32,6 @@ struct Game {
 		player.position.x = 100;
 		player.position.y = 100;
 		player.radius = 50;
-		player.speed = 2.0f;
 	}
 	void Update() {
 		renderer.PullMessages();
@@ -53,14 +52,13 @@ private:
 	Physics::Entity player;
 
 	void UpdatePhysics() {
-		if (GetAsyncKeyState('W'))
-			player.position.y -= player.speed;
-		else if (GetAsyncKeyState('S'))
-			player.position.y += player.speed;
-		if (GetAsyncKeyState('A'))
-			player.position.x -= player.speed;
-		else if (GetAsyncKeyState('D'))
-			player.position.x += player.speed;
+		if (renderer.GetWindowHandle() != GetFocus()) return;
+		if (GetAsyncKeyState('W')) player.MoveUp();
+		else if (GetAsyncKeyState('S')) player.MoveDown();
+		if (GetAsyncKeyState('A')) player.MoveLeft();
+		else if (GetAsyncKeyState('D')) player.MoveRight();
+
+		player.Update();
 	}
 	void UpdateNetworking() {
 		net.SendPlayerData(name, PlayerColorRed, player.position.x, player.position.y);

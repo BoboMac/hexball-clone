@@ -13,10 +13,11 @@ though this approach is easily hackable, who gives a shit.
 bivol vezi ce drq faci
 */
 
+#define MAX_VELOCITY 3.0f
 
 namespace Physics {
 
-	struct Position{
+	struct Float2 {
 		float x;
 		float y;
 	};
@@ -25,10 +26,26 @@ namespace Physics {
 	};
 	struct Entity {
 		float mass;
-		float velocity;
-		float speed;
+		Float2 velocity = {0, 0};
+		float acceleration = 0.1f;
 		float radius;
-		Position position;
+		Float2 position;
+		void MoveLeft()  { velocity.x -= acceleration; }
+		void MoveRight() { velocity.x += acceleration; }
+		void MoveUp()    { velocity.y -= acceleration; }
+		void MoveDown()  { velocity.y += acceleration; }
+		void Update() {
+			velocity.x *= 0.99f;
+			velocity.y *= 0.99f;
+
+			if (velocity.x > MAX_VELOCITY) velocity.x = MAX_VELOCITY;
+			else if (velocity.x < -MAX_VELOCITY) velocity.x = -MAX_VELOCITY;
+			if (velocity.y > MAX_VELOCITY) velocity.y = MAX_VELOCITY;
+			else if (velocity.y < -MAX_VELOCITY) velocity.y = -MAX_VELOCITY;
+
+			position.x += velocity.x;
+			position.y += velocity.y;
+		}
 	};
 	bool IsColliding(Entity a, Entity b) {
 		float r = a.radius + b.radius;
