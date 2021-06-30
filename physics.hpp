@@ -30,7 +30,7 @@ namespace Physics {
 		float radius;
 		Position position;
 	};
-	bool IsColliding(Entity a, Entity b){
+	bool IsColliding(Entity a, Entity b) {
 		float r = a.radius + b.radius;
 		if(r*r < (a.position.x - b.position.x)*(a.position.x - b.position.x) + (a.position.y - b.position.y) * (a.position.y - b.position.y))
 			return false;

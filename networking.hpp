@@ -10,8 +10,11 @@ TODO:
 
 #include <WS2tcpip.h>
 #include <string>
+#include <iostream>
+#include <vector>
+#include <thread>
 
-// socket bs the compiler is to old to implement
+// socket bs the compiler is too old to implement
 int inet_pton(int af, const char *src, void *dst) {
 	struct sockaddr_storage ss;
 	int size = sizeof(ss);
@@ -63,13 +66,15 @@ enum PlayerColor {
 	PlayerColorBlue
 };
 
-struct Networking_PlayerData {
+struct Networking_EntityData {
 	PlayerColor color;
 	float x, y;
-	char name[16];
+	char* name;
 };
 
 struct Networking {
+	char entities_num = 2;
+	Networking_EntityData *entities;
 	// Returns 1 on success
 	bool ConnectToServer() {
 		// Initialize winsock
@@ -93,11 +98,53 @@ struct Networking {
 			closesocket(sock);
 			return 0;
 		}
+
+		// Initialize the other shit
+		entities = (Networking_EntityData*)malloc(entities_num * sizeof(Networking_EntityData));
+		for(int i = 0; i < entities_num; i++) {
+			entities[i].name = (char*)malloc(256);
+			ZeroMemory(entities[i].name, 256);
+		}
 		return 1;
 	}
-	void GetPlayerData(Networking_PlayerData *player_data) {
+	void GetEntityData(char* data, int size, Networking_EntityData *player_data) {
+		if (!data || !size) {
+			std::cout << "No data being received.\n";
+			return;
+		}
+		std::string tokens[4]; // name color x y
+		std::string token;
+		char token_index = 0;
+		for(int i = 0; i < size && data[i] != 0; i++) {
+			if (data[i] == ' ') {
+				tokens[token_index] = token;
+				token.clear();
+				token_index++;
+			}
+			else {
+				token += data[i];
+			}
+		}
+		tokens[token_index] = token;
+		token.clear();
+		token_index++;
+
+		if (tokens[0].size() && tokens[1].size() && tokens[2].size() && tokens[3].size()) {
+			//player_data->name = (char*)tokens[0].c_str();
+			player_data->color = (tokens[1] == "red" ? PlayerColorRed : PlayerColorBlue);
+			player_data->x = std::stof(tokens[2]);
+			player_data->y = std::stof(tokens[3]);
+		}
 	}
+	// Update all entitie's data
 	void ReadServerData() {
+		Sleep(10);
+		for(int i = 0; i < entities_num; i++) {
+			char* buf = (char*)malloc(4096);
+			ZeroMemory(buf, 4096);
+			int received_bytes = recv(sock, buf, 4096, 0);
+			GetEntityData(buf, received_bytes, &entities[i]);
+		}
 	}
 	void SendPlayerData(const std::string& name, PlayerColor color, float x, float y) {
 		std::string data = name + (color == PlayerColorRed ? " red " : " blue ") + std::to_string(x) + " " + std::to_string(y);
